@@ -1,22 +1,30 @@
 var result = document.getElementById("result");
 
-
-
 function display(number){
     result.value += number;
 }
 
+function calculate() {
+    try {
+        let expression = result.value;
 
-function calculate(){
-    var final_number = result.value;
-    var final_result = eval(final_number);
-    result.value = final_result;
+        // convert symbols to JS operators
+        expression = expression.replace(/x/g, "*");
+        expression = expression.replace(/÷/g, "/");
+        expression = expression.replace(/%/g, "/100");
+
+        let final_result = Function('"use strict"; return (' + expression + ')')();
+        result.value = final_result;
+
+    } catch (error) {
+        result.value = "Error";
+    }
 }
 
 function clrs() {
     result.value = "";
 }
 
-function dle(){
+function dle() {
     result.value = result.value.slice(0, -1);
 }
